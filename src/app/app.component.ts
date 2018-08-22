@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular6-test';
+
+  helloWorld() : string {
+    return "Hello World";
+  }
 }

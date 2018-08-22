@@ -1,27 +1,27 @@
-import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-describe('AppComponent', () => {
+import { TestBed, async } from '@angular/core/testing';
+
+describe('Hello world', () => {
+  let expected = "";
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent]
     }).compileComponents();
+
+      expected = "Hello World";
   }));
-  it('should create the app', async(() => {
+
+  afterEach(() => {
+    expected = "";
+  });
+
+  it('says hello', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'angular6-test'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular6-test');
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular6-test!');
-  }));
-});
+
+    expect(app.helloWorld()).toEqual(expected);
+  });
+
+
+})
