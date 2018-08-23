@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service'
 
 @Component({
@@ -6,8 +6,9 @@ import { AuthService } from './auth.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'angular6-test';
+  needsLogin: boolean = true;
 
   constructor(private authService: AuthService){}
 
@@ -15,7 +16,12 @@ export class AppComponent {
     return "Hello World";
   }
 
-  needsLogin(): boolean {
-    return !this.authService.isAuthenticated();
+
+  ngOnInit(){
+    this.authService.isAuthenticated().then((authenticated) => {
+      this.needsLogin = !authenticated;
+    });
+
   }
+
 }

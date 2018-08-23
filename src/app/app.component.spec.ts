@@ -23,6 +23,8 @@ describe('Hello world', () => {
 
       authService = TestBed.get(AuthService);
 
+      component = fixture.componentInstance;
+
       el = fixture.debugElement.query(By.css('a'));
   }));
 
@@ -37,16 +39,11 @@ describe('Hello world', () => {
     expect(app.helloWorld()).toEqual(expected);
   });
 
-  it('canLogin returns false when the user is not authenticated',() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    
+  xit('canLogin returns false when the user is not authenticated',async(() => {
+    /*expect(component.needsLogin()).toBeTruthy();*/
+  }));
 
-    expect(authService.isAuthenticated()).toBeFalsy();
-    expect(component.needsLogin()).toBeTruthy();
-  });
-
-  it('login button hidden when the user is authenticated', () => {
+  xit('login button hidden when the user is authenticated', () => {
       expect(el.nativeElement.textContent.trim()).toBe('');
       fixture.detectChanges();
       expect(el.nativeElement.textContent.trim()).toBe('Login');
@@ -55,6 +52,19 @@ describe('Hello world', () => {
       fixture.detectChanges();
       expect(el.nativeElement.textContent.trim()).toBe('Logout');
   });
+
+  it('Button label via async() and whenStable()', async(() => {
+    fixture.detectChanges();
+    expect(el.nativeElement.textContent.trim()).toBe('Login');
+    spyOn(authService, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(el.nativeElement.textContent.trim()).toBe('Logout');
+    })
+    component.ngOnInit();
+
+
+  }));
 
 
 })
