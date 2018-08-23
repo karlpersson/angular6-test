@@ -1,8 +1,15 @@
 import { AppComponent } from './app.component';
-import { TestBed, async, ComponentFixture, fakeAsync,tick } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, fakeAsync,tick,inject } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { DebugElement} from '@angular/core';
 import { By } from '@angular/platform-browser';
+
+class MockAuthService extends AuthService{
+  isAuthenticated(){
+    return Promise.resolve(true);
+  }
+}
+
 
 
 describe('Hello world', () => {
@@ -17,6 +24,10 @@ describe('Hello world', () => {
       declarations: [AppComponent],
       providers: [AuthService]
     }).compileComponents();
+
+    TestBed.overrideComponent(
+      AppComponent,
+      {set: {providers: [{provide: AuthService, useClass: MockAuthService}]}});
 
       expected = "Hello World";
 
@@ -76,6 +87,12 @@ describe('Hello world', () => {
     expect(el.nativeElement.textContent.trim()).toBe('Logout');
 
   }))
+
+  it('Service injected via inject(...) and TestBed.get(...) should be the same instance',
+    inject([AuthService], (injectService: AuthService) => {
+      expect(injectService).toBe(authService);
+    })
+);
 
 
 })
