@@ -1,8 +1,9 @@
 import { AppComponent } from './app.component';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, fakeAsync,tick } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { DebugElement} from '@angular/core';
 import { By } from '@angular/platform-browser';
+
 
 describe('Hello world', () => {
   let expected = "";
@@ -62,9 +63,19 @@ describe('Hello world', () => {
       expect(el.nativeElement.textContent.trim()).toBe('Logout');
     })
     component.ngOnInit();
-
-
   }));
+
+  it('Button label via fakeAsync() and tick()', fakeAsync(() => {
+    expect(el.nativeElement.textContent.trim()).toBe('');
+    fixture.detectChanges();
+    expect(el.nativeElement.textContent.trim()).toBe('Login');
+    spyOn(authService, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+    expect(el.nativeElement.textContent.trim()).toBe('Logout');
+
+  }))
 
 
 })
