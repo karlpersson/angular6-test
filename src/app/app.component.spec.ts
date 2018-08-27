@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { DebugElement} from '@angular/core';
 import { By } from '@angular/platform-browser';
 
+import { TestHoverFocusComponent } from './test-hover-focus/test-hover-focus.component';
+
 class MockAuthService extends AuthService{
   isAuthenticated(){
     return Promise.resolve(true);
@@ -21,7 +23,7 @@ describe('Hello world', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent,TestHoverFocusComponent],
       providers: [AuthService]
     }).compileComponents();
 
